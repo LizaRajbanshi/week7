@@ -7,11 +7,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     $sql = "SELECT * FROM students WHERE student_id = :student_id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
+
     $stmt->execute([':student_id' => $student_id]);
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($student && password_verify($password, $student['password'])) {
+    if ($student && password_verify($password, $student['password_hash'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['student_name'] = $student['name'];
         header("Location: dashboard.php");

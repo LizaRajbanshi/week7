@@ -6,17 +6,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $password = $_POST['password'];
 
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
-    $sql = "INSERT INTO students (student_id, name, password)
-            VALUES (:student_id, :name, :password)";
+$sql = "INSERT INTO students (student_id, name, password_hash)
+        VALUES (:student_id, :name, :password_hash)";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([
-        ':student_id' => $student_id,
-        ':name' => $name,
-        ':password' => $hashedPassword
-    ]);
+$stmt = $pdo->prepare($sql);
+$stmt->execute([
+    'student_id' => $student_id,
+    'name' => $name,
+    'password_hash' => $passwordHash
+]);
+
+
 
     header("Location: login.php");
     exit();

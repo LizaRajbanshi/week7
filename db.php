@@ -1,13 +1,28 @@
-<?php
-$host = "localhost";
-$dbname = "student_portal";
-$username = "root";
-$password = "";
+<?php 
+
+$server = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'herald_db';
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false
+    ];
+
+    $pdo = new PDO(
+        "mysql:host=$server;dbname=$database;charset=utf8mb4",
+        $username,
+        $password,
+        $options
+    );
+
+    
+
 } catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    die("Connection Failed: " . $e->getMessage());
 }
+
 ?>
